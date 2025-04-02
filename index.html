@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aroma Of Peace</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body>
+   <!-- Header -->
+   <header id="main-header">
+    <div class="logo-container">
+      <div class="logo">
+        <img src="logo.png" alt="Aroma Of Peace Logo">
+      </div>
+      <div class="logo-text">Aroma Of Peace</div>
+    </div>
+    
+    <!-- Hamburger Menu -->
+    <div class="hamburger" onclick="toggleSidebar(event)">
+      <i class="fas fa-bars"></i>
+    </div>
+    
+    <!-- Navigation -->
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#pack">PACK SPECIAL</a></li>
+      </ul>
+    </nav>
+    
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" class="search-input" id="search-input" placeholder="Rechercher...">
+      <button id="search-button"><i class="fas fa-search"></i></button>
+      <div id="search-results" class="search-results"></div>
+    </div>
+    
+    <!-- Cart Icon -->
+    <div class="cart-icon" id="cart-icon" onclick="openCartModal()">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="cart-count">0</span>
+    </div>
+  </header>
+  
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <h3>Catégories</h3>
+    </div>
+    <div class="sidebar-content">
+      <ul>
+        <li>
+          <a href="javascript:void(0);" class="dropdown-toggle" onclick="toggleDropdown('bougies-dropdown')">Bougies</a>
+          <ul class="dropdown" id="bougies-dropdown">
+            <li><a href="product-detail.html">Bougies Thérapeutiques</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0);" class="dropdown-toggle" onclick="toggleDropdown('bougeoirs-dropdown')">Bougeoirs</a>
+          <ul class="dropdown" id="bougeoirs-dropdown">
+            <li><a href="product-detail2.html">Bougeoirs en Verre</a></li>
+          </ul>
+        </li>
+    </div>
+  </div>
+  
+  <!-- Overlay -->
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+  
+  <!-- Notification Banner -->
+  <div id="notification-banner">
+    <span id="notification-message"></span>
+    <button id="close-notification"><i class="fas fa-times"></i></button>
+  </div>
+  
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Welcome to Aroma Of Peace</h1>
+        <p>Illuminez vos espaces avec nos bougies thérapeutiques et nos bougeoirs eco-friendly!</p>
+        <a href="#products" class="btn">Shop Now</a>
+      </div>
+    </section>
+    
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+      <div class="section-header">
+        <h2>Our Products</h2>
+      </div>
+      
+      <div class="product-categories">
+        <a href="product-detail.html" class="product-category">
+          <div class="category-content">
+            <h3>Bougies Thérapeutiques</h3>
+            <p>Discover our therapeutic candles collection</p>
+            <div class="category-icon"><i class="fas fa-fire"></i></div>
+          </div>
+        </a>
+        
+        <a href="product-detail2.html" class="product-category">
+          <div class="category-content">
+            <h3>Bougeoirs</h3>
+            <p>Explore our elegant candle holders</p>
+            <div class="category-icon"><i class="fas fa-glass-whiskey"></i></div>
+          </div>
+        </a>
+      </div>
+    </section>
+    
+  <!-- Special Pack Section -->
+<section id="pack" class="pack-section">
+  <div class="section-header">
+    <h2><i class="fas fa-star"></i> PACK SPECIAL <i class="fas fa-star"></i></h2>
+  </div>
+  <div class="pack-details">
+    <img src="pack-image.png" alt="Special Pack" class="pack-image">
+    <div class="pack-content">
+      <h3>ECO-FRIENDLY THERAPY PACK</h3>
+      <p>Get all 3 of our therapeutic candles plus matching holders in this exclusive set!</p>
+      
+      <div class="pack-benefits">
+        <a href="product-detail.html" class="benefit-item">
+          <div class="benefit-icon"><i class="fas fa-spa"></i></div>
+          <p>Anti-Stress Candle</p>
+        </a>
+        <a href="product-detail.html" class="benefit-item">
+          <div class="benefit-icon"><i class="fas fa-bug"></i></div>
+          <p>Anti-Mosquito Candle</p>
+        </a>
+        <a href="product-detail.html" class="benefit-item">
+          <div class="benefit-icon"><i class="fas fa-heart"></i></div>
+          <p>Anti-Anxiety Candle</p>
+        </a>
+        <a href="product-detail2.html" class="benefit-item">
+          <div class="benefit-icon"><i class="fas fa-glass-whiskey"></i></div>
+          <p>Glass Candle Holder</p>
+        </a>
+      </div>
+      
+      <p class="price-tag"><strong>50 DT</strong> <span class="original-price">(70 DT value)</span></p>
+      <p>Includes eco-friendly packaging !</p>
+      
+        <button id="add-pack-to-cart" class="btn pulse">
+          <i class="fas fa-shopping-cart"></i> ADD TO CART
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+    
+    <!-- About Us Section -->
+    <section id="about" class="about">
+      <h2>à propos de nous</h2>
+      <p>Nous sommes des étudiants de la LSV3 Biologie moléculaire et cellulaire à la fac des sciences Tunis, nous sommes passionés de la fabrication des bougies thérapeutiques et des bougeoirs "eco-friendly"!</p>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <div class="contact-container">
+        <h2>Contactez-nous!</h2>
+        <p>Nous serions ravis de vous entendre. Voici comment vous pouvez nous contacter :</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/aroma.of.peace?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link instagram">
+            <i class="fab fa-instagram"></i> Instagram
+          </a>
+          <span>|</span>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2025 Aroma Of Peace. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <!-- Cart Modal -->
+  <div class="modal" id="cart-modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeCartModal()">&times;</span>
+      <h3 class="modal-title">Your Shopping Cart</h3>
+      <div id="cart-items"></div>
+      <div class="cart-total">
+        <span>Delivery Fee:</span>
+        <span>8.00 DT</span>
+      </div>
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cart-total">0.00 DT</span>
+      </div>
+      <a href="checkout.html" class="btn">Proceed to Checkout</a>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+  <script src="search.js" defer></script>
+  <script src="sidebar.js" defer></script>
+
+
+</body>
+</html>
