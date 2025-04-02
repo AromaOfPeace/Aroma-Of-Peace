@@ -3,13 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Sample product data
     const aromaCandles = [
-        { id: 1, name: "Anti-Stress",  image: "relax.png", description: "40g, Cire de Soja, Lavande(95%), Camomile(5%)." },
-        { id: 2, name: "Anti-Moustique", image: "en.png", description: "40g, Cire de Soja, Citronelle, Citron, Geranium." },
-        { id: 3, name: "Anti-Anxiété",  image: "so.png", description: "40g, Cire de Soja, Camomile(95%), Lavande(5%)." },
+        { id: 1, name: "Anti-Stress",  image: "relax.PNG", description: "40g, Cire de Soja, Lavande(95%), Camomile(5%)." },
+        { id: 2, name: "Anti-Moustique", image: "en.PNG", description: "40g, Cire de Soja, Citronelle, Citron, Geranium." },
+        { id: 3, name: "Anti-Anxiété",  image: "so.PNG", description: "40g, Cire de Soja, Camomile(95%), Lavande(5%)." },
     ];
 
     const candleHolders = [
-        { id: 4, name: "Bougeoir en verre",  image: "coq.png", description: "Verre (eco-friendly!)." },
+        { id: 4, name: "Bougeoir en verre",  image: "coq.PNG", description: "Verre (eco-friendly!)." },
     ];
 
     const allProducts = [...aromaCandles, ...candleHolders];
