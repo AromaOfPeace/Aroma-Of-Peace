@@ -1,213 +1,1193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aroma Of Peace</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de Parasitologie</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ddd6fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        .start-screen {
+            max-width: 500px;
+            margin: 100px auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .info-list {
+            margin: 20px 0;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            color: #4b5563;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .chapter-box {
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .chapter-box p {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .chapter-box ul {
+            list-style: disc;
+            margin-left: 20px;
+        }
+
+        .chapter-box li {
+            margin: 5px 0;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+        }
+
+        .btn-secondary {
+            background: #9ca3af;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #6b7280;
+        }
+
+        .btn-success {
+            background: #4f46e5;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-success:hover {
+            background: #4338ca;
+        }
+
+        .btn:disabled {
+            background: #d1d5db;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .timer-bar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .timer-value {
+            color: #4f46e5;
+        }
+
+        .timer-value.warning {
+            color: #dc2626;
+        }
+
+        .progress-header {
+            margin-bottom: 25px;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4f46e5;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4f46e5;
+            transition: width 0.3s;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            margin-bottom: 30px;
+        }
+
+        .option {
+            width: 100%;
+            padding: 20px;
+            margin: 12px 0;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .option:hover {
+            border-color: #a5b4fc;
+        }
+
+        .option.selected {
+            border-color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .results-screen {
+            max-width: 700px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .results-icon {
+            width: 100px;
+            height: 100px;
+            background: #eef2ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .results-stats {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 15px 0;
+        }
+
+        .stat-row.total {
+            border-top: 2px solid #e5e7eb;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+        }
+
+        .stat-value {
+            font-weight: 600;
+        }
+
+        .score-large {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4f46e5;
+        }
+
+        .review-section {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .review-item {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ef4444;
+        }
+
+        .review-item.correct {
+            border-left-color: #10b981;
+        }
+
+        .review-question {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        .review-answer {
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .review-answer.correct {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .review-answer.incorrect {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .review-answer.user-answer {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .review-label {
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .pdf-btn {
+            background: #dc2626;
+            color: white;
+            margin: 10px 0;
+        }
+
+        .pdf-btn:hover {
+            background: #b91c1c;
+        }
+
+        .pdf-btn-comparative {
+            background: #059669;
+            color: white;
+            margin: 10px 0;
+        }
+
+        .pdf-btn-comparative:hover {
+            background: #047857;
+        }
+    </style>
 </head>
-
 <body>
-   <!-- Header -->
-   <header id="main-header">
-    <div class="logo-container">
-      <div class="logo">
-        <img src="logo.png" alt="Aroma Of Peace Logo">
-      </div>
-      <div class="logo-text">Aroma Of Peace</div>
-    </div>
-    
-    <!-- Hamburger Menu -->
-    <div class="hamburger" onclick="toggleSidebar(event)">
-      <i class="fas fa-bars"></i>
-    </div>
-    
-    <!-- Navigation -->
-    <nav>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#pack">PACK SPECIAL</a></li>
-      </ul>
-    </nav>
-    
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <input type="text" class="search-input" id="search-input" placeholder="Rechercher...">
-      <button id="search-button"><i class="fas fa-search"></i></button>
-      <div id="search-results" class="search-results"></div>
-    </div>
-    
-    <!-- Cart Icon -->
-    <div class="cart-icon" id="cart-icon" onclick="openCartModal()">
-      <i class="fas fa-shopping-cart"></i>
-      <span class="cart-count">0</span>
-    </div>
-  </header>
-  
-  <!-- Sidebar -->
-  <div id="sidebar" class="sidebar">
-    <div class="sidebar-header">
-      <h3>Catégories</h3>
-    </div>
-    <div class="sidebar-content">
-      <ul>
-        <li>
-          <a href="javascript:void(0);" class="dropdown-toggle" onclick="toggleDropdown('bougies-dropdown')">Bougies</a>
-          <ul class="dropdown" id="bougies-dropdown">
-            <li><a href="product-detail.html">Bougies Thérapeutiques</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="javascript:void(0);" class="dropdown-toggle" onclick="toggleDropdown('bougeoirs-dropdown')">Bougeoirs</a>
-          <ul class="dropdown" id="bougeoirs-dropdown">
-            <li><a href="product-detail2.html">Bougeoirs en Verre</a></li>
-          </ul>
-        </li>
-    </div>
-  </div>
-  
-  <!-- Overlay -->
-  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-  
-  <!-- Notification Banner -->
-  <div id="notification-banner">
-    <span id="notification-message"></span>
-    <button id="close-notification"><i class="fas fa-times"></i></button>
-  </div>
-  
-  <!-- Main Content -->
-  <main>
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <h1>Welcome to Aroma Of Peace</h1>
-        <p>Illuminez vos espaces avec nos bougies thérapeutiques et nos bougeoirs eco-friendly!</p>
-        <a href="#products" class="btn">Shop Now</a>
-      </div>
-    </section>
-    
-    <!-- Products Section -->
-    <section id="products" class="products-section">
-      <div class="section-header">
-        <h2>Our Products</h2>
-      </div>
-      
-      <div class="product-categories">
-        <a href="product-detail.html" class="product-category">
-          <div class="category-content">
-            <h3>Bougies Thérapeutiques</h3>
-            <p>Discover our therapeutic candles collection</p>
-            <div class="category-icon"><i class="fas fa-fire"></i></div>
-          </div>
-        </a>
-        
-        <a href="product-detail2.html" class="product-category">
-          <div class="category-content">
-            <h3>Bougeoirs</h3>
-            <p>Explore our elegant candle holders</p>
-            <div class="category-icon"><i class="fas fa-glass-whiskey"></i></div>
-          </div>
-        </a>
-      </div>
-    </section>
-    
-  <!-- Special Pack Section -->
-<section id="pack" class="pack-section">
-  <div class="section-header">
-    <h2><i class="fas fa-star"></i> PACK SPECIAL <i class="fas fa-star"></i></h2>
-  </div>
-  <div class="pack-details">
-    <img src="pack-image.png" alt="Special Pack" class="pack-image">
-    <div class="pack-content">
-      <h3>ECO-FRIENDLY THERAPY PACK</h3>
-      <p>Get all 3 of our therapeutic candles plus matching holders in this exclusive set!</p>
-      
-      <div class="pack-benefits">
-        <a href="product-detail.html" class="benefit-item">
-          <div class="benefit-icon"><i class="fas fa-spa"></i></div>
-          <p>Anti-Stress Candle</p>
-        </a>
-        <a href="product-detail.html" class="benefit-item">
-          <div class="benefit-icon"><i class="fas fa-bug"></i></div>
-          <p>Anti-Mosquito Candle</p>
-        </a>
-        <a href="product-detail.html" class="benefit-item">
-          <div class="benefit-icon"><i class="fas fa-heart"></i></div>
-          <p>Anti-Anxiety Candle</p>
-        </a>
-        <a href="product-detail2.html" class="benefit-item">
-          <div class="benefit-icon"><i class="fas fa-glass-whiskey"></i></div>
-          <p>Glass Candle Holder</p>
-        </a>
-      </div>
-      
-      <p class="price-tag"><strong>50 DT</strong> <span class="original-price">(70 DT value)</span></p>
-      <p>Includes eco-friendly packaging !</p>
-      
-        <button id="add-pack-to-cart" class="btn pulse">
-          <i class="fas fa-shopping-cart"></i> ADD TO CART
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-    
-    <!-- About Us Section -->
-    <section id="about" class="about">
-      <h2>à propos de nous</h2>
-      <p>Nous sommes des étudiants de la LSV3 Biologie moléculaire et cellulaire à la fac des sciences Tunis, nous sommes passionés de la fabrication des bougies thérapeutiques et des bougeoirs "eco-friendly"!</p>
-    </section>
-    
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-      <div class="contact-container">
-        <h2>Contactez-nous!</h2>
-        <p>Nous serions ravis de vous entendre. Voici comment vous pouvez nous contacter :</p>
-        <div class="social-links">
-          <a href="https://www.instagram.com/aroma.of.peace?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link instagram">
-            <i class="fab fa-instagram"></i> Instagram
-          </a>
-          <span>|</span>
-        </div>
-      </div>
-    </section>
-  </main>
-  
-  <footer>
-    <div class="footer-container">
-      <p>&copy; 2025 Aroma Of Peace. All rights reserved.</p>
-    </div>
-  </footer>
-  
-  <!-- Cart Modal -->
-  <div class="modal" id="cart-modal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeCartModal()">&times;</span>
-      <h3 class="modal-title">Your Shopping Cart</h3>
-      <div id="cart-items"></div>
-      <div class="cart-total">
-        <span>Delivery Fee:</span>
-        <span>8.00 DT</span>
-      </div>
-      <div class="cart-total">
-        <span>Total:</span>
-        <span id="cart-total">0.00 DT</span>
-      </div>
-      <a href="checkout.html" class="btn">Proceed to Checkout</a>
-    </div>
-  </div>
+    <div class="container" id="app"></div>
 
-  <script src="script.js" defer></script>
-  <script src="search.js" defer></script>
-  <script src="sidebar.js" defer></script>
+    <script>
+        const questions = [
+            // TOXOPLASMOSE
+            { id: 1, question: "Quel est l'agent pathogène responsable de la toxoplasmose?", options: ["Toxoplasma gondii", "Plasmodium falciparum", "Leishmania major", "Entamoeba histolytica"], correctAnswer: 0 },
+            { id: 2, question: "Quel est l'hôte définitif de Toxoplasma gondii?", options: ["Le chien", "Le chat", "L'homme", "Le mouton"], correctAnswer: 1 },
+            { id: 3, question: "Quelle est la principale voie de contamination de la toxoplasmose?", options: ["Piqûre de moustique", "Ingestion de viande mal cuite contenant des kystes", "Morsure de chien", "Contact avec l'eau contaminée"], correctAnswer: 1 },
+            { id: 4, question: "Quelle population est la plus à risque de complications graves de la toxoplasmose?", options: ["Les enfants en bonne santé", "Les femmes enceintes et immunodéprimés", "Les hommes adultes", "Les personnes âgées"], correctAnswer: 1 },
+            { id: 5, question: "Quelle forme de Toxoplasma gondii reste latente dans les tissus nerveux et musculaires?", options: ["Trophozoïte", "Kyste tissulaire", "Oocyste", "Sporozoïte"], correctAnswer: 1 },
+            { id: 6, question: "Quel examen permet de diagnostiquer une toxoplasmose congénitale?", options: ["Radiographie", "Sérologie IgM et IgG et PCR liquide amniotique", "Examen parasitologique des selles", "Frottis sanguin"], correctAnswer: 1 },
+            { id: 7, question: "La toxoplasmose est-elle une zoonose?", options: ["Oui", "Non", "Seulement chez les chats", "Seulement en Tunisie"], correctAnswer: 0 },
+            { id: 8, question: "Quelle complication peut survenir chez le fœtus en cas de toxoplasmose maternelle?", options: ["Diabète", "Atteinte neuro-oculaire", "Hypertension", "Anémie simple"], correctAnswer: 1 },
+            
+            // KYSTE HYDATIQUE
+            { id: 9, question: "Quel est l'agent responsable du kyste hydatique?", options: ["Echinococcus granulosus", "Taenia solium", "Ascaris lumbricoides", "Toxoplasma gondii"], correctAnswer: 0 },
+            { id: 10, question: "Le kyste hydatique est-il endémique en Tunisie?", options: ["Oui, particulièrement à Kasserine, Kairouan, Kef, Siliana", "Non", "Uniquement dans le nord", "Uniquement dans le sud"], correctAnswer: 0 },
+            { id: 11, question: "Quel est l'hôte définitif d'Echinococcus granulosus?", options: ["Le mouton", "Le chameau", "Le chien", "L'homme"], correctAnswer: 2 },
+            { id: 12, question: "Quel est l'hôte intermédiaire le plus fréquent en Tunisie?", options: ["Le chat", "Le mouton", "Le cheval", "Le porc"], correctAnswer: 1 },
+            { id: 13, question: "Quel organe est le plus souvent atteint par le kyste hydatique chez l'homme?", options: ["Le cerveau", "Le foie (50-60%)", "Les poumons (30-40%)", "La rate"], correctAnswer: 1 },
+            { id: 14, question: "Comment l'homme se contamine-t-il par Echinococcus granulosus?", options: ["Piqûre de moustique", "Ingestion d'œufs par contact avec chien ou aliments souillés", "Morsure de chien", "Contact avec le sang"], correctAnswer: 1 },
+            { id: 15, question: "Quelle est la complication la plus redoutée du kyste hydatique?", options: ["La fièvre", "La rupture du kyste (dissémination et choc anaphylactique)", "L'anémie", "La diarrhée"], correctAnswer: 1 },
+            { id: 16, question: "Quel examen est utilisé pour diagnostiquer le kyste hydatique?", options: ["Radiographie simple", "Imagerie médicale (échographie, scanner) et sérologie", "ECG", "Endoscopie"], correctAnswer: 1 },
+            
+            // AMIBIASE
+            { id: 17, question: "Quel est l'agent responsable de l'amibiase?", options: ["Giardia lamblia", "Entamoeba histolytica", "Entamoeba coli", "Plasmodium vivax"], correctAnswer: 1 },
+            { id: 18, question: "Quelle est la forme infectante de l'amibiase?", options: ["Trophozoïte", "Kyste", "Oocyste", "Sporozoïte"], correctAnswer: 1 },
+            { id: 19, question: "Quelle est la principale voie de transmission de l'amibiase?", options: ["Voie aérienne", "Voie féco-orale (ingestion de kystes)", "Voie sanguine", "Voie sexuelle"], correctAnswer: 1 },
+            { id: 20, question: "Quel organe est le plus souvent atteint lors d'une amibiase extra-intestinale?", options: ["Le cerveau", "Le foie", "Les poumons", "La rate"], correctAnswer: 1 },
+            { id: 21, question: "Comment appelle-t-on l'abcès hépatique causé par l'amibiase?", options: ["Abcès pyogène", "Abcès amibien du foie", "Abcès froid", "Abcès chaud"], correctAnswer: 1 },
+            { id: 22, question: "Quel examen permet de diagnostiquer l'amibiase intestinale?", options: ["Sérologie", "Examen parasitologique des selles (forme végétative hématophage)", "Radiographie", "Échographie"], correctAnswer: 1 },
+            { id: 23, question: "L'amibiase est-elle fréquente en zone tropicale et subtropicale?", options: ["Oui", "Non", "Uniquement en hiver", "Uniquement en été"], correctAnswer: 0 },
+            { id: 24, question: "Quelle forme d'Entamoeba histolytica est éliminée dans les selles?", options: ["Trophozoïte uniquement", "Kyste uniquement", "Kyste et trophozoïte", "Sporozoïte"], correctAnswer: 2 },
+            
+            // PALUDISME
+            { id: 25, question: "Quel est l'agent responsable du paludisme?", options: ["Leishmania", "Plasmodium", "Toxoplasma", "Trypanosoma"], correctAnswer: 1 },
+            { id: 26, question: "Quel est le vecteur du paludisme?", options: ["La mouche tsé-tsé", "Le moustique Anophèle femelle", "La tique", "Le phlébotome"], correctAnswer: 1 },
+            { id: 27, question: "Le paludisme autochtone existe-t-il encore en Tunisie?", options: ["Oui, très fréquent", "Non, transmission autochtone arrêtée depuis 1979", "Oui, uniquement dans le sud", "Oui, uniquement en été"], correctAnswer: 1 },
+            { id: 28, question: "Quelle espèce de Plasmodium est la plus dangereuse?", options: ["Plasmodium vivax", "Plasmodium ovale", "Plasmodium falciparum", "Plasmodium malariae"], correctAnswer: 2 },
+            { id: 29, question: "Quel examen permet de diagnostiquer le paludisme?", options: ["Sérologie uniquement", "Frottis sanguin et goutte épaisse", "Examen des selles", "Radiographie"], correctAnswer: 1 },
+            { id: 30, question: "Quelle est la principale complication du paludisme à P. falciparum?", options: ["Diarrhée", "Neuropaludisme (accès pernicieux)", "Constipation", "Rhinite"], correctAnswer: 1 },
+            { id: 31, question: "Comment se manifeste cliniquement le paludisme typique?", options: ["Fièvre continue", "Accès fébriles périodiques (fièvre tierce ou quarte)", "Hypothermie", "Absence de symptômes"], correctAnswer: 1 },
+            { id: 32, question: "Les cas de paludisme en Tunisie sont principalement:", options: ["Autochtones", "Importés d'Afrique subsaharienne", "Transmis par transfusion", "Congénitaux"], correctAnswer: 1 },
+            
+            // LEISHMANIOSE
+            { id: 33, question: "Quel est l'agent responsable de la leishmaniose?", options: ["Leishmania", "Plasmodium", "Toxoplasma", "Trypanosoma"], correctAnswer: 0 },
+            { id: 34, question: "Quel est le vecteur de la leishmaniose?", options: ["Le moustique Anophèle", "Le phlébotome femelle", "La mouche tsé-tsé", "La tique"], correctAnswer: 1 },
+            { id: 35, question: "La leishmaniose cutanée est-elle endémique en Tunisie?", options: ["Oui", "Non", "Uniquement dans le nord", "Uniquement sur la côte"], correctAnswer: 0 },
+            { id: 36, question: "Quelle forme de leishmaniose est la plus fréquente en Tunisie?", options: ["Leishmaniose viscérale", "Leishmaniose cutanée (10000-20000 cas/an)", "Leishmaniose cutanéo-muqueuse", "Toutes également"], correctAnswer: 1 },
+            { id: 37, question: "Quel est le réservoir principal de Leishmania major en Tunisie?", options: ["Le chien", "Le rongeur sauvage (Meriones)", "Le chat", "L'homme"], correctAnswer: 1 },
+            { id: 38, question: "Dans quelle région de Tunisie la leishmaniose cutanée zoonotique est-elle plus fréquente?", options: ["Le nord", "Les régions du centre (Kairouan, Sidi Bouzid)", "La côte est", "Tunis uniquement"], correctAnswer: 1 },
+            { id: 39, question: "Comment se présente cliniquement la leishmaniose cutanée?", options: ["Fièvre élevée", "Ulcération cutanée (bouton de Gafsa)", "Diarrhée", "Toux"], correctAnswer: 1 },
+            { id: 40, question: "Quel examen permet de confirmer le diagnostic de leishmaniose?", options: ["Radiographie", "Mise en évidence du parasite (frottis, culture, PCR)", "Examen des selles", "ECG"], correctAnswer: 1 },
+            
+            // MORPHOLOGIE LEISHMANIOSE
+            { id: 41, question: "Quelle est la taille approximative de la forme promastigote de Leishmania?", options: ["5-10μm", "15-25μm", "30-40μm", "50-60μm"], correctAnswer: 1 },
+            { id: 42, question: "Où se trouve la forme promastigote de Leishmania?", options: ["Dans les macrophages humains", "Dans le tube digestif du phlébotome", "Dans les érythrocytes", "Dans l'eau contaminée"], correctAnswer: 1 },
+            { id: 43, question: "Quelle est la caractéristique de la forme promastigote?", options: ["Forme ronde sans flagelle", "Forme allongée avec flagelle", "Forme kystique", "Forme sporulée"], correctAnswer: 1 },
+            { id: 44, question: "Où se trouve la forme amastigote de Leishmania?", options: ["Dans le tube digestif du phlébotome", "Dans les macrophages de l'hôte vertébré", "Dans le sang périphérique", "Dans l'environnement"], correctAnswer: 1 },
+            { id: 45, question: "Quelle est la caractéristique de la forme amastigote?", options: ["Forme flagellée mobile", "Forme ovale sans flagelle (2-6μm)", "Forme kystique résistante", "Forme sporulée infectante"], correctAnswer: 1 },
+            
+            // CYCLES ÉVOLUTIFS LEISHMANIOSE
+            { id: 46, question: "Quel est le cycle complet de Leishmania?", options: ["Homme → Environnement → Homme", "Phlébotome → Vertébré → Phlébotome", "Eau → Poisson → Homme", "Sol → Légume → Homme"], correctAnswer: 1 },
+            { id: 47, question: "Comment le phlébotome se contamine-t-il avec Leishmania?", options: ["En piquant un humain ou animal infecté (formes amastigotes)", "En ingérant des kystes", "En marchant sur du sol contaminé", "En respirant des spores"], correctAnswer: 0 },
+            { id: 48, question: "Que devient la forme amastigote dans le phlébotome?", options: ["Elle meurt", "Elle se transforme en promastigote", "Elle forme des kystes", "Elle sporule"], correctAnswer: 1 },
+            
+            // FORMES EN TUNISIE
+            { id: 49, question: "Combien de formes distinctes de leishmaniose cutanée existe-t-il en Tunisie?", options: ["1 forme", "2 formes", "3 formes", "4 formes"], correctAnswer: 2 },
+            { id: 50, question: "Quelle est la leishmaniose cutanée sporadique du nord?", options: ["Forme zoonotique", "Forme anthroponotique", "Forme urbaine", "Forme rurale"], correctAnswer: 1 },
+            { id: 51, question: "Où trouve-t-on principalement la leishmaniose cutanée zoonotique en Tunisie?", options: ["Région de Gafsa", "Tunis et banlieue", "Cap Bon", "Île de Djerba"], correctAnswer: 0 },
+            { id: 52, question: "Quel est le principal réservoir de la leishmaniose cutanée zoonotique?", options: ["Les chiens", "Les rongeurs sauvages", "Les chats", "Les chameaux"], correctAnswer: 1 },
+            
+            // SYMPTOMATOLOGIE ET ÉVOLUTION
+            { id: 53, question: "Comment débute typiquement une lésion de leishmaniose cutanée?", options: ["Par une vésicule", "Par une papule inflammatoire prurigineuse", "Par une tache pigmentée", "Par un ulcère profond"], correctAnswer: 1 },
+            { id: 54, question: "Où siègent généralement les lésions de leishmaniose cutanée?", options: ["Sur les zones couvertes", "Sur les zones découvertes", "Sur les muqueuses", "Sur les paumes et plantes"], correctAnswer: 1 },
+            { id: 55, question: "Quelle est l'évolution typique d'une lésion de leishmaniose cutanée?", options: ["Guérison spontanée sans cicatrice", "Ulcération puis cicatrice atrophique indélébile", "Dissémination généralisée", "Transformation maligne"], correctAnswer: 1 },
+            
+            // DIAGNOSTIC
+            { id: 56, question: "Quel est le diagnostic direct de la leishmaniose cutanée?", options: ["Sérologie", "Examen parasitologique du suc dermique", "PCR sanguine", "Radiographie"], correctAnswer: 1 },
+            { id: 57, question: "Quel est le diagnostic indirect de la leishmaniose viscérale?", options: ["Examen parasitologique des selles", "Sérologie (recherche d'anticorps)", "Frottis sanguin", "Échographie abdominale"], correctAnswer: 1 },
+            
+            // PROPHYLAXIE ET LUTTE
+            { id: 58, question: "Quelle est la principale mesure de lutte contre le vecteur de la leishmaniose?", options: ["Vaccination", "Insecticides contre les phlébotomes", "Élimination des eaux stagnantes", "Moustiquaires"], correctAnswer: 1 },
+            { id: 59, question: "Quelle est la principale mesure de lutte contre le réservoir?", options: ["Dératisation", "Vaccination des chiens", "Traitement des malades", "Assainissement"], correctAnswer: 0 },
+            { id: 60, question: "Pourquoi le traitement des chiens infestés est-il rarement recommandé?", options: ["Trop cher", "Développement de Leishmanies résistantes", "Inefficace", "Toxique pour l'homme"], correctAnswer: 1 },
+            
+            // DISTRIBUTION GÉOGRAPHIQUE SPÉCIFIQUE
+            { id: 61, question: "Quelle région tunisienne est particulièrement touchée par la leishmaniose cutanée zoonotique?", options: ["Kairouan et Sidi Bouzid", "Tunis et Ariana", "Monastir et Sousse", "Bizerte et Tabarka"], correctAnswer: 0 },
 
+            // TOXOPLASMOSE SUPPLEMENTAIRES
+            { id: 62, question: "Quel pourcentage de la population tunisienne adulte est immunisée contre la toxoplasmose?", options: ["30%", "60%", "80%", "95%"], correctAnswer: 1 },
+            { id: 63, question: "Quelle est la durée de vie des oocystes de Toxoplasma dans le sol humide?", options: ["1 semaine", "1 mois", "6 mois", "Jusqu'à 1 an"], correctAnswer: 3 },
+            { id: 64, question: "Quelle est la fréquence de transmission transplacentaire en fin de grossesse?", options: ["10%", "30%", "60%", "90%"], correctAnswer: 3 },
+            { id: 65, question: "Quel médicament est utilisé dans le traitement de la toxoplasmose acquise habituelle?", options: ["Glucantime", "Rovamycine", "Métronidazole", "Chloroquine"], correctAnswer: 1 },
+            { id: 66, question: "Quelle forme morphologique de Toxoplasma est responsable de la contamination transplacentaire?", options: ["Kyste", "Trophozoïte", "Oocyste", "Sporozoïte"], correctAnswer: 1 },
 
+            // KYSTE HYDATIQUE SUPPLEMENTAIRES
+            { id: 67, question: "Quel est le taux d'incidence chirurgicale du kyste hydatique en Tunisie?", options: ["5 cas/100 000 habitants/an", "15 cas/100 000 habitants/an", "25 cas/100 000 habitants/an", "35 cas/100 000 habitants/an"], correctAnswer: 1 },
+            { id: 68, question: "Quelle est la mortalité due au kyste hydatique en Tunisie?", options: ["1%", "3.3%", "5%", "10%"], correctAnswer: 1 },
+            { id: 69, question: "Quelle membrane du kyste hydatique donne naissance aux scolex?", options: ["Adventice", "Cuticule", "Membrane proligère", "Membrane basale"], correctAnswer: 2 },
+            { id: 70, question: "Combien de temps peut vivre le ver adulte d'Echinococcus dans l'intestin du chien?", options: ["1-2 mois", "6 mois à 2 ans", "3-4 ans", "5-10 ans"], correctAnswer: 1 },
+            { id: 71, question: "Quelle est la principale mesure prophylactique contre le kyste hydatique?", options: ["Vaccination", "Éviter le contact chien-viscères infestés", "Traitement des eaux", "Moustiquaires"], correctAnswer: 1 },
+
+            // AMIBIASE SUPPLEMENTAIRES
+            { id: 72, question: "Comment se caractérise la diarrhée typique de l'amibiase intestinale aiguë?", options: ["Diarrhée hydrique", "Diarrhée glairo-sanglante 'crachat rectal'", "Diarrhée graisseuse", "Diarrhée avec mucus"], correctAnswer: 1 },
+            { id: 73, question: "Quel est le pourcentage de porteurs asymptomatiques d'Entamoeba histolytica?", options: ["30%", "50%", "70%", "90%"], correctAnswer: 3 },
+            { id: 74, question: "Quel examen permet de visualiser l'abcès amibien 'en bouton de chemise'?", options: ["Échographie", "Scanner", "Examen anatomopathologique", "Radiographie"], correctAnswer: 2 },
+            { id: 75, question: "Quelle est la localisation extra-intestinale la plus fréquente de l'amibiase?", options: ["Poumon", "Cerveau", "Foie", "Rate"], correctAnswer: 2 },
+            { id: 76, question: "Quel est le traitement de référence de l'amibiase?", options: ["Chloroquine", "Métronidazole", "Rovamycine", "Glucantime"], correctAnswer: 1 },
+
+            // PALUDISME SUPPLEMENTAIRES
+            { id: 77, question: "Quel pourcentage des décès palustres survient en Afrique?", options: ["50%", "70%", "90%", "95%"], correctAnswer: 2 },
+            { id: 78, question: "Quelle est la durée du cycle érythrocytaire de P. falciparum?", options: ["24 heures", "48 heures", "72 heures", "96 heures"], correctAnswer: 1 },
+            { id: 79, question: "Combien de cas de paludisme importé sont rapportés annuellement en Tunisie?", options: ["~50 cas", "~100 cas", "~200 cas", "~500 cas"], correctAnswer: 0 },
+            { id: 80, question: "Quelle technique permet de diagnostiquer les faibles parasitémies palustres?", options: ["Frottis sanguin", "Goutte épaisse", "Sérologie", "PCR"], correctAnswer: 1 },
+            { id: 81, question: "Quel médicament est utilisé dans les formes graves de paludisme?", options: ["Chloroquine per os", "Quinine IV", "Métronidazole", "Rovamycine"], correctAnswer: 1 },
+
+            // LEISHMANIOSE SUPPLEMENTAIRES
+            { id: 82, question: "Quelle est l'incidence annuelle de la leishmaniose viscérale en Tunisie?", options: ["50 cas/an", "150 cas/an", "500 cas/an", "1000 cas/an"], correctAnswer: 1 },
+            { id: 83, question: "Quelle tranche d'âge est la plus touchée par la leishmaniose viscérale méditerranéenne?", options: ["Nourrissons <1 an", "Enfants <5 ans (70%)", "Adolescents 15-20 ans", "Adultes 30-40 ans"], correctAnswer: 1 },
+            { id: 84, question: "Quelle est la triade clinique typique de la leishmaniose viscérale?", options: ["Fièvre, toux, splénomégalie", "Fièvre, pâleur, splénomégalie", "Fièvre, ictère, hépatomégalie", "Fièvre, diarrhée, adénopathies"], correctAnswer: 1 },
+            { id: 85, question: "Quelle anomalie biologique est caractéristique de la leishmaniose viscérale?", options: ["Leucocytose", "Pancytopénie", "Thrombocytose", "Hyperéosinophilie"], correctAnswer: 1 },
+            { id: 86, question: "Quel est le principal réservoir de la leishmaniose viscérale en Tunisie?", options: ["Rongeurs sauvages", "Chien", "Chat", "Homme"], correctAnswer: 1 },
+
+            // QUESTIONS COMPARATIVES ENTRE PARASITOSES
+            { id: 87, question: "Quelles parasitoses sont transmises par voie transplacentaire?", options: ["Toxoplasmose et Paludisme", "Kyste hydatique et Amibiase", "Leishmaniose et Toxoplasmose", "Amibiase et Paludisme"], correctAnswer: 0 },
+            { id: 88, question: "Quelles parasitoses ont le chien comme réservoir?", options: ["Leishmaniose viscérale et Kyste hydatique", "Toxoplasmose et Amibiase", "Paludisme et Leishmaniose cutanée", "Amibiase et Toxoplasmose"], correctAnswer: 0 },
+            { id: 89, question: "Quelles parasitoses sont diagnostiquées par sérologie?", options: ["Kyste hydatique et Leishmaniose viscérale", "Amibiase intestinale et Paludisme", "Toxoplasmose congénitale et Amibiase intestinale", "Paludisme et Kyste hydatique"], correctAnswer: 0 },
+            { id: 90, question: "Quels parasites ont des formes kystiques?", options: ["Entamoeba histolytica et Toxoplasma gondii", "Plasmodium et Leishmania", "Echinococcus et Plasmodium", "Leishmania et Toxoplasma"], correctAnswer: 0 },
+
+            // ÉPIDÉMIOLOGIE TUNISIENNE
+            { id: 91, question: "Quelle région tunisienne n'est pas mentionnée comme foyer de kyste hydatique?", options: ["Kasserine", "Kairouan", "Sfax", "Siliana"], correctAnswer: 2 },
+            { id: 92, question: "Quelle parasitose a vu son incidence augmenter chez les adultes en Tunisie?", options: ["Leishmaniose viscérale", "Paludisme autochtone", "Amibiase hépatique", "Toxoplasmose congénitale"], correctAnswer: 0 },
+            { id: 93, question: "Quelle est la particularité évolutive de l'endémie de leishmaniose viscérale en Tunisie?", options: ["Elle régresse dans tout le country", "Elle s'étend du nord vers le centre et le sud", "Elle reste stable depuis 50 ans", "Elle ne touche que les zones côtières"], correctAnswer: 1 },
+            { id: 94, question: "Quelle parasitose est considérée comme éradiquée en Tunisie?", options: ["Paludisme autochtone", "Kyste hydatique", "Toxoplasmose", "Leishmaniose cutanée"], correctAnswer: 0 },
+
+            // DIAGNOSTIC PARASITOLOGIQUE
+            { id: 95, question: "Quel prélèvement est utilisé pour le diagnostic direct de la leishmaniose viscérale?", options: ["Sang périphérique", "Moelle osseuse", "Selles", "Liquide céphalo-rachidien"], correctAnswer: 1 },
+            { id: 96, question: "Quelle technique permet la culture des Leishmanies?", options: ["Milieu NNN", "Milieu Sabouraud", "Gélose sang", "Milieu Mac Conkey"], correctAnswer: 0 },
+            { id: 97, question: "Quel examen direct visualise les formes amastigotes de Leishmania?", options: ["Frottis sanguin", "Frottis de moelle osseuse", "Examen des selles", "Examen urinaire"], correctAnswer: 1 },
+            { id: 98, question: "Quelle forme de Leishmania est observée après culture?", options: ["Amastigote", "Promastigote", "Kyste", "Trophozoïte"], correctAnswer: 1 },
+
+            // PROPHYLAXIE
+            { id: 99, question: "Quelle mesure prophylactique est commune à la toxoplasmose et l'amibiase?", options: ["Lutte contre les phlébotomes", "Cuisson suffisante de la viande", "Traitement des chiens", "Utilisation de moustiquaires"], correctAnswer: 1 },
+            { id: 100, question: "Quelle parasitose nécessite un dépistage mensuel chez la femme enceinte non immunisée?", options: ["Toxoplasmose", "Paludisme", "Leishmaniose", "Amibiase"], correctAnswer: 0 }
+        ];
+
+        let state = {
+            currentQuestion: 0,
+            selectedAnswers: {},
+            questionTimer: 30,
+            totalTimer: 3000, // 50 minutes
+            examStarted: false,
+            examFinished: false,
+            score: 0,
+            showReview: false
+        };
+
+        let questionInterval, totalInterval;
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function startExam() {
+            state.examStarted = true;
+            render();
+            startTimers();
+        }
+
+        function startTimers() {
+            questionInterval = setInterval(() => {
+                state.questionTimer--;
+                if (state.questionTimer <= 0) {
+                    handleNext();
+                    state.questionTimer = 30;
+                }
+                render();
+            }, 1000);
+
+            totalInterval = setInterval(() => {
+                state.totalTimer--;
+                if (state.totalTimer <= 0) {
+                    finishExam();
+                }
+                render();
+            }, 1000);
+        }
+
+        function stopTimers() {
+            clearInterval(questionInterval);
+            clearInterval(totalInterval);
+        }
+
+        function selectAnswer(optionIndex) {
+            state.selectedAnswers[state.currentQuestion] = optionIndex;
+            render();
+        }
+
+        function handleNext() {
+            if (state.currentQuestion < questions.length - 1) {
+                state.currentQuestion++;
+                state.questionTimer = 30;
+            } else {
+                finishExam();
+            }
+            render();
+        }
+
+        function finishExam() {
+            stopTimers();
+            let correctCount = 0;
+            Object.keys(state.selectedAnswers).forEach(key => {
+                if (state.selectedAnswers[key] === questions[key].correctAnswer) {
+                    correctCount++;
+                }
+            });
+            state.score = ((correctCount / questions.length) * 20).toFixed(2);
+            state.examFinished = true;
+            render();
+        }
+
+        function retryExam() {
+            state = {
+                currentQuestion: 0,
+                selectedAnswers: {},
+                questionTimer: 30,
+                totalTimer: 1800,
+                examStarted: false,
+                examFinished: false,
+                score: 0,
+                showReview: false
+            };
+            render();
+        }
+
+        function generateComprehensivePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a4'
+            });
+            
+            // Page 1: Tableau comparatif Protozoaires
+            doc.setFontSize(20);
+            doc.setTextColor(255, 0, 0);
+            doc.text('TABLEAU COMPARATIF DES PARASITOSES - PROTOZOAIRES', 148, 15, { align: 'center' });
+            
+            const protozoairesData = [
+                [
+                    'CARACTÉRISTIQUE',
+                    'TOXOPLASMOSE',
+                    'LEISHMANIOSE', 
+                    'PALUDISME',
+                    'AMIBIASE'
+                ],
+                [
+                    'AGENT PATHOGÈNE',
+                    'Toxoplasma gondii',
+                    'Leishmania spp.',
+                    'Plasmodium spp.',
+                    'Entamoeba histolytica'
+                ],
+                [
+                    'TYPE',
+                    'Protozoaire',
+                    'Protozoaire',
+                    'Protozoaire',
+                    'Protozoaire'
+                ],
+                [
+                    'FORMES MORPHOLOGIQUES',
+                    '• Trophozoïte\n• Kyste tissulaire\n• Oocyste',
+                    '• Amastigote (2-6μm)\n• Promastigote (15-25μm)',
+                    '• Sporozoïtes\n• Schizontes\n• Mérozoïtes\n• Gamétocytes',
+                    '• Forme végétative\n• Kyste infectant'
+                ],
+                [
+                    'VECTEUR/TRANSMISSION',
+                    '• Voie orale (viande)\n• Transplacentaire\n• Oocystes sol',
+                    '• Phlébotome femelle\n• Nocturne/crépusculaire',
+                    '• Anophèle femelle\n• Transfusion\n• Transplacentaire',
+                    '• Voie féco-orale\n• Kystes eau/aliments\n• Mains sales'
+                ],
+                [
+                    'RÉSERVOIR',
+                    '• Chat (définitif)\n• Nombreux animaux',
+                    '• Rongeurs (cutanée)\n• Chien (viscérale)',
+                    'Homme',
+                    '• Homme (porteur 90%)\n• Asymptomatique fréquent'
+                ],
+                [
+                    'CLINIQUE PRINCIPALE',
+                    '• 90% inapparentes\n• Fièvre + adénopathie\n• Immunodéprimés: cérébral\n• Congénitale: neuro-oculaire',
+                    'CUTANÉE:\n• Papule → ulcération → cicatrice\nVISCÉRALE:\n• Fièvre + pâleur + splénomégalie\n• Pancytopénie',
+                    '• Accès palustre tierce/quate\n• Neuropaludisme (P.falciparum)\n• Anémie, splénomégalie',
+                    'INTESTINALE:\n• Diarrhée glairo-sanglante\nHÉPATIQUE:\n• Abcès amibien foie\n• Douleur HD + fièvre'
+                ],
+                [
+                    'DIAGNOSTIC',
+                    '• Sérologie IgG/IgM\n• PCR liquide amniotique\n• 2 sérologies à 3 semaines',
+                    'CUTANÉE:\n• Examen suc dermique\nVISCÉRALE:\n• Moelle osseuse\n• Sérologie',
+                    '• Frottis sanguin\n• Goutte épaisse\n• Diagnostic rapide (TDR)',
+                    'INTESTINALE:\n• EPS forme végétative\nHÉPATIQUE:\n• Sérologie\n• Échographie'
+                ],
+                [
+                    'PROPHYLAXIE',
+                    '• Cuisson viande\n• Hygiène mains\n• Éviter chat femme enceinte',
+                    '• Insecticides phlébotomes\n• Dératisation\n• Dépistage chiens',
+                    '• Moustiquaires\n• Chimioprophylaxie\n• Lutte antivectorielle',
+                    '• Lutte péril fécal\n• Hygiène mains/aliments\n• Traitement porteurs'
+                ],
+                [
+                    'ÉPIDÉMIOLOGIE TUNISIE',
+                    '• 60% population immunisée\n• Dépistage mensuel femme enceinte\n• Transmission fin grossesse: 90%',
+                    'CUTANÉE:\n• 10000-20000 cas/an\n• 3 formes distinctes\nVISCÉRALE:\n• 150 cas/an\n• Extension nord→centre→sud',
+                    '• Autochtone éradiqué 1979\n• Cas importés: ~50/an\n• Afrique subsaharienne',
+                    '• Zones tropicales/subtropicales\n• Porteurs asymptomatiques: 90%\n• "Bouton de Gafsa" 1884'
+                ]
+            ];
+
+            doc.autoTable({
+                startY: 25,
+                head: [protozoairesData[0]],
+                body: protozoairesData.slice(1),
+                theme: 'grid',
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 2,
+                    overflow: 'linebreak',
+                    lineColor: [0, 0, 0],
+                    lineWidth: 0.1,
+                    textColor: [0, 0, 0],
+                    fontStyle: 'normal',
+                    minCellHeight: 6
+                },
+                headStyles: {
+                    fillColor: [255, 0, 0],
+                    textColor: 255,
+                    fontStyle: 'bold',
+                    fontSize: 9,
+                    cellPadding: 3,
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { cellWidth: 28, fontStyle: 'bold' },
+                    1: { cellWidth: 30 },
+                    2: { cellWidth: 30 },
+                    3: { cellWidth: 30 },
+                    4: { cellWidth: 30 }
+                },
+                margin: { left: 5, right: 5 }
+            });
+
+            // Page 2: Kyste Hydatique + Points clés
+            doc.addPage('landscape');
+            doc.setFontSize(20);
+            doc.setTextColor(255, 0, 0);
+            doc.text('KYSTE HYDATIQUE - CESTODE', 148, 15, { align: 'center' });
+
+            const kysteData = [
+                [
+                    'CARACTÉRISTIQUE',
+                    'DÉTAILS COMPLETS'
+                ],
+                [
+                    'AGENT PATHOGÈNE',
+                    'Echinococcus granulosus (Cestode)'
+                ],
+                [
+                    'HÔTE DÉFINITIF',
+                    'Chien'
+                ],
+                [
+                    'HÔTE INTERMÉDIAIRE',
+                    'Mouton, homme'
+                ],
+                [
+                    'FORMES MORPHOLOGIQUES',
+                    '• Ver adulte (3-8mm, intestin chien)\n• Larve kystique (3 membranes)\n• Membrane proligère (scolex)\n• Adventice (tissu fibrosé)\n• Cuticule (protectrice)'
+                ],
+                [
+                    'TRANSMISSION',
+                    '• Ingestion œufs embryonnés\n• Contact chien/aliments souillés\n• Œufs résistants dans environnement\n• Pas de transmission directe homme-homme'
+                ],
+                [
+                    'CYCLE ÉVOLUTIF',
+                    '• Chien → Œufs → Herbivore/Homme → Kyste → Chien\n• Ver adulte vie: 6 mois-2 ans\n• Grands foyers: Méditerranée, Moyen-Orient\n• Kyste croissance lente (1-5cm/an)'
+                ],
+                [
+                    'CLINIQUE',
+                    '• Foie (50-60%): hépatomégalie, douleur HD\n• Poumon (30-40%): toux, vomique, dyspnée\n• Rupture: choc anaphylactique, dissémination\n• Compression organes voisins\n• Kyste fertile vs stérile'
+                ],
+                [
+                    'DIAGNOSTIC',
+                    '• Imagerie: échographie (classification WHO-IWGE)\n• Scanner: caractérisation précise\n• Sérologie hydatique (sensibilité 80-90%)\n• Éviter ponction kyste (risque dissémination)\n• Rx thorax: opacité ronde'
+                ],
+                [
+                    'PROPHYLAXIE',
+                    '• Éviter contact chien-viscères infestés\n• Hygiène mains rigoureuse\n• Traitement chiens (praziquantel)\n• Inspection abattoirs\n• Éducation populations à risque'
+                ],
+                [
+                    'ÉPIDÉMIOLOGIE TUNISIE',
+                    '• Incidence: 15/100000/an\n• Mortalité: 3.3%\n• Zones endémiques: Kasserine, Kairouan, Kef, Siliana\n• Élevage traditionnel favorisant\n• Femmes > hommes (activités domestiques)'
+                ]
+            ];
+
+            doc.autoTable({
+                startY: 25,
+                head: [kysteData[0]],
+                body: kysteData.slice(1),
+                theme: 'grid',
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 3,
+                    overflow: 'linebreak',
+                    lineColor: [0, 0, 0],
+                    lineWidth: 0.1,
+                    textColor: [0, 0, 0],
+                    fontStyle: 'normal'
+                },
+                headStyles: {
+                    fillColor: [255, 0, 0],
+                    textColor: 255,
+                    fontStyle: 'bold',
+                    fontSize: 12,
+                    cellPadding: 4,
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { cellWidth: 40, fontStyle: 'bold' },
+                    1: { cellWidth: 110 }
+                },
+                margin: { left: 10, right: 10 }
+            });
+
+            // Points clés comparatifs
+            const finalY = doc.lastAutoTable.finalY + 10;
+            doc.setFontSize(14);
+            doc.setTextColor(255, 0, 0);
+            doc.text('POINTS CLÉS COMPARATIFS', 148, finalY, { align: 'center' });
+
+            const pointsCles = [
+                '• TRANSMISSION TRANSPLACENTAIRE: Toxoplasmose + Paludisme',
+                '• CHIEN COMME RÉSERVOIR: Leishmaniose viscérale + Kyste hydatique',
+                '• DIAGNOSTIC SÉROLOGIQUE: Toxoplasmose + Kyste hydatique + Leishmaniose viscérale',
+                '• FORMES KYSTIQUES: Toxoplasmose + Amibiase',
+                '• VECTEUR INSECTE: Leishmaniose (phlébotome) + Paludisme (anophèle)',
+                '• ZOONOSE: Toutes sauf Amibiase (strictement humaine)',
+                '• ENDÉMIQUE TUNISIE: Toutes sauf Paludisme autochtone (éradiqué)'
+            ];
+
+            let yPosition = finalY + 8;
+            doc.setFontSize(9);
+            doc.setTextColor(0, 0, 0);
+            
+            pointsCles.forEach(point => {
+                if (yPosition < 270) {
+                    doc.text(point, 10, yPosition);
+                    yPosition += 5;
+                }
+            });
+
+            // Pied de page
+            doc.setFontSize(8);
+            doc.setTextColor(150, 150, 150);
+            doc.text(`Fiche de révision générée le ${new Date().toLocaleDateString('fr-FR')} - Parasitologie UPSAT`, 148, 280, { align: 'center' });
+
+            doc.save('tableaux-comparatifs-parasitologie.pdf');
+        }
+
+        function generateCorrectionPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Set font to avoid encoding issues
+            doc.setFont('helvetica');
+            
+            // Header
+            doc.setFontSize(20);
+            doc.setTextColor(255, 0, 0);
+            doc.text('CORRECTION DE VOTRE TEST DE PARASITOLOGIE', 105, 15, { align: 'center' });
+            
+            // Date and score
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Date: ${new Date().toLocaleDateString('fr-FR')}`, 20, 25);
+            doc.text(`Score: ${state.score}/20`, 180, 25, { align: 'right' });
+            
+            // Calculate statistics
+            const answeredCount = Object.keys(state.selectedAnswers).length;
+            const correctCount = Object.keys(state.selectedAnswers).filter(
+                key => state.selectedAnswers[key] === questions[key].correctAnswer
+            ).length;
+            const wrongCount = answeredCount - correctCount;
+            
+            // Statistics table
+            const statsData = [
+                ['Questions répondues', answeredCount, questions.length],
+                ['Réponses correctes', correctCount],
+                ['Réponses incorrectes', wrongCount],
+                ['Pourcentage de réussite', `${((correctCount / questions.length) * 100).toFixed(1)}%`]
+            ];
+            
+            doc.autoTable({
+                startY: 35,
+                head: [['Statistique', 'Valeur', 'Total']],
+                body: statsData,
+                theme: 'grid',
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 3,
+                    lineColor: [0, 0, 0],
+                    lineWidth: 0.1,
+                    textColor: [0, 0, 0]
+                },
+                headStyles: {
+                    fillColor: [255, 0, 0],
+                    textColor: 255,
+                    fontStyle: 'bold'
+                },
+                columnStyles: {
+                    0: { cellWidth: 70 },
+                    1: { cellWidth: 40 },
+                    2: { cellWidth: 40 }
+                }
+            });
+            
+            // Questions and answers
+            let yPosition = doc.lastAutoTable.finalY + 15;
+            
+            // Group questions by category
+            const categories = {
+                'TOXOPLASMOSE': questions.filter(q => q.id <= 8),
+                'KYSTE HYDATIQUE': questions.filter(q => q.id >= 9 && q.id <= 16),
+                'AMIBIASE': questions.filter(q => q.id >= 17 && q.id <= 24),
+                'PALUDISME': questions.filter(q => q.id >= 25 && q.id <= 32),
+                'LEISHMANIOSE': questions.filter(q => q.id >= 33 && q.id <= 60),
+                'QUESTIONS COMPLÉMENTAIRES': questions.filter(q => q.id >= 61)
+            };
+            
+            // Iterate through categories
+            for (const [categoryName, categoryQuestions] of Object.entries(categories)) {
+                // Check if we need a new page
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                // Category header
+                doc.setFontSize(14);
+                doc.setTextColor(255, 0, 0);
+                doc.text(categoryName, 20, yPosition);
+                yPosition += 10;
+                
+                // Questions in this category
+                for (let i = 0; i < categoryQuestions.length; i++) {
+                    const q = categoryQuestions[i];
+                    
+                    // Check if we need a new page
+                    if (yPosition > 270) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                    
+                    // Question number and text
+                    doc.setFontSize(10);
+                    doc.setTextColor(0, 0, 0);
+                    const questionText = `${q.id}. ${q.question}`;
+                    const splitQuestion = doc.splitTextToSize(questionText, 170);
+                    doc.text(splitQuestion, 20, yPosition);
+                    yPosition += splitQuestion.length * 5 + 5;
+                    
+                    // Options
+                    q.options.forEach((option, index) => {
+                        const isUserAnswer = state.selectedAnswers[q.id - 1] === index;
+                        const isCorrectAnswer = q.correctAnswer === index;
+                        
+                        let prefix = '○ ';
+                        let textColor = [0, 0, 0];
+                        
+                        if (isUserAnswer && isCorrectAnswer) {
+                            prefix = '✓ ';
+                            textColor = [0, 128, 0]; // Green
+                        } else if (isUserAnswer && !isCorrectAnswer) {
+                            prefix = '✗ ';
+                            textColor = [255, 0, 0]; // Red
+                        } else if (isCorrectAnswer) {
+                            prefix = '✓ ';
+                            textColor = [0, 128, 0]; // Green
+                        }
+                        
+                        doc.setTextColor(...textColor);
+                        const optionText = `${prefix} ${option}`;
+                        const splitOption = doc.splitTextToSize(optionText, 170);
+                        doc.text(splitOption, 25, yPosition);
+                        yPosition += splitOption.length * 5;
+                    });
+                    
+                    // Add some space between questions
+                    yPosition += 10;
+                }
+            }
+            
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(150, 150, 150);
+            doc.text('Correction générée automatiquement - Parasitologie UPSAT', 105, 285, { align: 'center' });
+            
+            // Save the PDF
+            doc.save(`correction-parasitologie-${new Date().toLocaleDateString('fr-FR')}.pdf`);
+        }
+
+        function renderStartScreen() {
+            return `
+                <div class="start-screen">
+                    <div class="card">
+                        <h1>Examen de Parasitologie</h1>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>${questions.length} questions</span>
+                            </div>
+                            <div class="info-item">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>30 secondes par question</span>
+                            </div>
+                            <div class="info-item">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>30 minutes au total</span>
+                            </div>
+                        </div>
+                        <div class="chapter-box">
+                            <p>Chapitres couverts:</p>
+                            <ul>
+                                <li>Toxoplasmose</li>
+                                <li>Kyste hydatique</li>
+                                <li>Amibiase</li>
+                                <li>Paludisme</li>
+                                <li>Leishmaniose (formes, cycles, prophylaxie)</li>
+                                <li>Distribution géographique en Tunisie</li>
+                                <li>Cycles évolutifs des parasites</li>
+                            </ul>
+                        </div>
+                        <div class="warning-box">
+                            ⚠️ Vous ne pouvez pas revenir aux questions précédentes. L'examen sera automatiquement soumis à la fin du temps.
+                        </div>
+                        <button class="btn btn-primary" onclick="startExam()">Commencer l'examen</button>
+                        
+                        <!-- Bouton PDF unique -->
+                        <button class="btn pdf-btn-comparative" onclick="generateComprehensivePDF()">
+                            📥 Télécharger les Tableaux Comparatifs
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderExamScreen() {
+            const currentQ = questions[state.currentQuestion];
+            const isLastQuestion = state.currentQuestion === questions.length - 1;
+            const hasSelected = state.selectedAnswers[state.currentQuestion] !== undefined;
+            const progress = ((state.currentQuestion + 1) / questions.length) * 100;
+
+            return `
+                <div class="timer-bar">
+                    <div class="timer-item">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Temps question: <span class="timer-value ${state.questionTimer <= 10 ? 'warning' : ''}">${state.questionTimer}s</span></span>
+                    </div>
+                    <div class="timer-item">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Temps total: <span class="timer-value ${state.totalTimer <= 60 ? 'warning' : ''}">${formatTime(state.totalTimer)}</span></span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="progress-header">
+                        <div class="progress-text">Question ${state.currentQuestion + 1} sur ${questions.length}</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                    <h2 class="question-text">${currentQ.question}</h2>
+                    <div class="options">
+                        ${currentQ.options.map((option, index) => `
+                            <button class="option ${state.selectedAnswers[state.currentQuestion] === index ? 'selected' : ''}" 
+                                    onclick="selectAnswer(${index})">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-secondary" onclick="handleNext()">
+                            Passer
+                        </button>
+                        <button class="btn btn-success" onclick="handleNext()" ${!hasSelected ? 'disabled' : ''}>
+                            ${isLastQuestion ? 'Terminer' : 'Suivant'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderResultsScreen() {
+            const answeredCount = Object.keys(state.selectedAnswers).length;
+            const correctCount = Object.keys(state.selectedAnswers).filter(
+                key => state.selectedAnswers[key] === questions[key].correctAnswer
+            ).length;
+            const wrongCount = answeredCount - correctCount;
+
+            // Get wrong answers
+            const wrongAnswers = [];
+            Object.keys(state.selectedAnswers).forEach(key => {
+                const questionIndex = parseInt(key);
+                if (state.selectedAnswers[key] !== questions[questionIndex].correctAnswer) {
+                    wrongAnswers.push({
+                        question: questions[questionIndex],
+                        userAnswer: state.selectedAnswers[key],
+                        correctAnswer: questions[questionIndex].correctAnswer
+                    });
+                }
+            });
+
+            return `
+                <div class="results-screen">
+                    <div class="card">
+                        <div class="results-icon">
+                            <svg width="50" height="50" fill="none" stroke="#4f46e5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h2>Examen terminé!</h2>
+                        
+                        <!-- Boutons PDF -->
+                        <button class="btn pdf-btn" onclick="generateCorrectionPDF()">
+                            📥 Télécharger la Correction Détaillée
+                        </button>
+                        
+                        <button class="btn pdf-btn-comparative" onclick="generateComprehensivePDF()">
+                            📊 Télécharger les Tableaux Comparatifs
+                        </button>
+                        
+                        <div class="results-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">Questions répondues:</span>
+                                <span class="stat-value">${answeredCount} / ${questions.length}</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Réponses correctes:</span>
+                                <span class="stat-value" style="color: #10b981">${correctCount}</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Réponses incorrectes:</span>
+                                <span class="stat-value" style="color: #ef4444">${wrongCount}</span>
+                            </div>
+                            <div class="stat-row total">
+                                <span class="stat-label" style="font-weight: 600; color: #1f2937">Note finale:</span>
+                                <span class="score-large">${state.score} / 20</span>
+                            </div>
+                        </div>
+                        
+                        ${wrongAnswers.length > 0 ? `
+                            <div class="review-section">
+                                <h3>Réponses incorrectes</h3>
+                                <p>Voici les questions que vous avez manquées avec les bonnes réponses:</p>
+                                
+                                ${wrongAnswers.map((item, index) => `
+                                    <div class="review-item">
+                                        <div class="review-question">${index + 1}. ${item.question.question}</div>
+                                        <div class="review-answer user-answer">
+                                            <span class="review-label">Votre réponse:</span> 
+                                            ${item.question.options[item.userAnswer]}
+                                        </div>
+                                        <div class="review-answer correct">
+                                            <span class="review-label">Bonne réponse:</span> 
+                                            ${item.question.options[item.correctAnswer]}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : `
+                            <div class="review-section">
+                                <div class="review-item correct">
+                                    <div class="review-question">Félicitations!</div>
+                                    <p>Vous avez répondu correctement à toutes les questions.</p>
+                                </div>
+                            </div>
+                        `}
+                        
+                        <button class="btn btn-primary" onclick="retryExam()">Réessayer l'examen</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            const app = document.getElementById('app');
+            if (!state.examStarted) {
+                app.innerHTML = renderStartScreen();
+            } else if (state.examFinished) {
+                app.innerHTML = renderResultsScreen();
+            } else {
+                app.innerHTML = renderExamScreen();
+            }
+        }
+
+        // Initial render
+        render();
+    </script>
 </body>
 </html>
